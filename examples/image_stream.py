@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import json
+import base64
+from pathlib import Path
 
 from aimlapi import AIMLAPI
 
@@ -8,23 +9,41 @@ client = AIMLAPI()
 
 
 def main() -> None:
-    """Example of AI/ML API image streaming with partial images."""
-    with client.images.generate(
-            model="openai/gpt-image-1",
-            prompt="A cute baby sea otter",
-            n=1,
-            size="1024x1024",
-            stream=True,
-            partial_images=3,
-    ) as stream:
-        body = b""
-        for chunk in stream.response.stream:
-            body += chunk
+    """Example of AIMLAPI image streaming with partial images."""
+    stream = client.images.generate(
+        model="openai/gpt-image-1",
+        prompt="A cute baby sea otter",
+        n=1,
+        size="1024x1024",
+        stream=True,
+        partial_images=3,
+    )
 
-        data = json.loads(body.decode("utf-8"))
-        created = data["created"]
-        url = data["data"][0]["url"]
-        print(created, url)
+    for event in stream:
+        if event.type == "image_generation.partial_image":
+            print(f"  Partial image {event.partial_image_index + 1}/3 received")
+            print(f"   Size: {len(event.b64_json)} characters (base64)")
+
+            # Save partial image to file
+            filename = f"partial_{event.partial_image_index + 1}.png"
+            image_data = base64.b64decode(event.b64_json)
+            with open(filename, "wb") as f:
+                f.write(image_data)
+            print(f"   💾 Saved to: {Path(filename).resolve()}")
+
+        elif event.type == "image_generation.completed":
+            print(f"\n✅ Final image completed!")
+            print(f"   Size: {len(event.b64_json)} characters (base64)")
+
+            # Save final image to file
+            filename = "final_image.png"
+            image_data = base64.b64decode(event.b64_json)
+            with open(filename, "wb") as f:
+                f.write(image_data)
+            print(f"   💾 Saved to: {Path(filename).resolve()}")
+
+        else:
+            print(f"❓ Unknown event: {event}")  # type: ignore[unreachable]
 
 
 if __name__ == "__main__":
