@@ -10,6 +10,7 @@ aimlapi = AsyncAIMLAPI()
 
 # TODO: FIX FOR AIMLAPI + REMOVE COMMENTS
 
+
 async def main() -> None:
     print("Recording for the next 10 seconds...")
     recording = await Microphone(timeout=10).record()

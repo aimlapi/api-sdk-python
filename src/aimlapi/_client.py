@@ -30,9 +30,10 @@ AZURE_DEFAULT_BASE_URL = "https://api.aimlapi.com/openai/"
 _API_KEY_ENV_VARS = ("AIML_API_KEY", "AIMLAPI_API_KEY")
 _BASE_URL_ENV_VARS = ("AIML_API_BASE", "AIMLAPI_API_BASE")
 AIMLAPI_HEADERS: dict[str, str] = {
-    "HTTP-Referer": "github.com/aimlapi/aimlapi-python",
+    "HTTP-Referer": "github.com/aimlapi/api-sdk-python",
     "X-Title": "AI/ML API Python SDK (OpenAI)",
 }
+
 
 def _first_env(*names: str) -> str | None:
     for name in names:
@@ -59,6 +60,7 @@ def _apply_default_client_options(
 
     default_headers = kwargs.get("default_headers") or {}
     kwargs["default_headers"] = {**default_headers, **AIMLAPI_HEADERS}
+
 
 def _scrub_schema_fields(value: object) -> None:
     if isinstance(value, MutableMapping):

@@ -1,14 +1,12 @@
 """Generate proxy modules in aimlapi mirroring openai's package structure."""
+
 from __future__ import annotations
 
 from pathlib import Path
 
 
 def build_proxy_content(module: str) -> str:
-    return (
-        "from __future__ import annotations\n\n"
-        f"from {module} import *  # noqa: F401, F403\n"
-    )
+    return f"from __future__ import annotations\n\nfrom {module} import *  # noqa: F401, F403\n"
 
 
 def main() -> None:

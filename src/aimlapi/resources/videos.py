@@ -265,4 +265,3 @@ class AsyncVideos(OpenAIAsyncVideos):
 
         video_url = _extract_video_url(final_payload)
         return await _async_download_video_bytes(video_url)
-

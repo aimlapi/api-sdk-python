@@ -64,8 +64,7 @@ class Completions(_Completions):
         messages: Iterable[MessageParam],
         stream: Literal[True],
         **kwargs: Any,
-    ) -> Stream[ChatCompletionChunk]:
-        ...
+    ) -> Stream[ChatCompletionChunk]: ...
 
     @overload
     def create(
@@ -74,8 +73,7 @@ class Completions(_Completions):
         messages: Iterable[MessageParam],
         stream: Literal[False] | None = ...,
         **kwargs: Any,
-    ) -> ChatCompletion:
-        ...
+    ) -> ChatCompletion: ...
 
     def create(
         self,
@@ -260,8 +258,7 @@ class AsyncCompletions(_AsyncCompletions):
         messages: Iterable[MessageParam],
         stream: Literal[True],
         **kwargs: Any,
-    ) -> AsyncStream[ChatCompletionChunk]:
-        ...
+    ) -> AsyncStream[ChatCompletionChunk]: ...
 
     @overload
     async def create(
@@ -270,8 +267,7 @@ class AsyncCompletions(_AsyncCompletions):
         messages: Iterable[MessageParam],
         stream: Literal[False] | None = ...,
         **kwargs: Any,
-    ) -> ChatCompletion:
-        ...
+    ) -> ChatCompletion: ...
 
     async def create(
         self,

@@ -1,11 +1,11 @@
 [project]
-name = "openai"
-version = "2.8.1"
-description = "The official Python library for the openai API"
+name = "aimlapi-sdk-python"
+version = "2.8.1-beta"
+description = "AI/ML API Python SDK"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "OpenAI", email = "support@openai.com" },
+    { name = "Dmitry <D1m7asis> Tumanov", email = "d1m7asis@gmail.com" }
 ]
 dependencies = [
     "httpx>=0.23.0, <1",
@@ -16,31 +16,32 @@ dependencies = [
     "sniffio",
     "tqdm > 4",
     "jiter>=0.10.0, <1",
+    "ruff>=0.14.6",
 ]
 requires-python = ">= 3.9"
 classifiers = [
-  "Typing :: Typed",
-  "Intended Audience :: Developers",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",
-  "Operating System :: OS Independent",
-  "Operating System :: POSIX",
-  "Operating System :: MacOS",
-  "Operating System :: POSIX :: Linux",
-  "Operating System :: Microsoft :: Windows",
-  "Topic :: Software Development :: Libraries :: Python Modules",
-  "License :: OSI Approved :: Apache Software License"
+    "Typing :: Typed",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Operating System :: POSIX",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: Apache Software License"
 ]
 
 [project.urls]
-Homepage = "https://github.com/openai/openai-python"
-Repository = "https://github.com/openai/openai-python"
+Homepage = "https://docs.aimlapi.com"
+Repository = "https://github.com/aimlapi/api-sdk-python"
 
 [project.scripts]
-openai = "openai.cli:main"
+aimlapi = "aimlapi.cli._cli:main"
 
 [project.optional-dependencies]
 aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.9"]
@@ -75,29 +76,29 @@ dev-dependencies = [
 
 [tool.rye.scripts]
 format = { chain = [
-  "format:ruff",
-  "format:docs",
-  "fix:ruff",
-  # run formatting again to fix any inconsistencies when imports are stripped
-  "format:ruff",
-]}
+    "format:ruff",
+    "format:docs",
+    "fix:ruff",
+    # run formatting again to fix any inconsistencies when imports are stripped
+    "format:ruff",
+] }
 "format:docs" = "python scripts/utils/ruffen-docs.py README.md api.md"
 "format:ruff" = "ruff format"
 
 "lint" = { chain = [
-  "check:ruff",
-  "typecheck",
-  "check:importable",
-]}
+    "check:ruff",
+    "typecheck",
+    "check:importable",
+] }
 "check:ruff" = "ruff check ."
 "fix:ruff" = "ruff check --fix ."
 
-"check:importable" = "python -c 'import openai'"
+"check:importable" = "python -c 'import aimlapi'"
 
 typecheck = { chain = [
-  "typecheck:pyright",
-  "typecheck:mypy"
-]}
+    "typecheck:pyright",
+    "typecheck:mypy"
+] }
 "typecheck:pyright" = "pyright"
 "typecheck:verify-types" = "pyright --verifytypes openai --ignoreexternal"
 "typecheck:mypy" = "mypy ."
@@ -108,25 +109,25 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build]
 include = [
-  "src/*"
+    "src/*"
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/openai"]
+packages = ["src/openai", "src/aimlapi"]
 
 [tool.hatch.build.targets.sdist]
 # Basically everything except hidden files/directories (such as .github, .devcontainers, .python-version, etc)
 include = [
-  "/*.toml",
-  "/*.json",
-  "/*.lock",
-  "/*.md",
-  "/mypy.ini",
-  "/noxfile.py",
-  "bin/*",
-  "examples/*",
-  "src/*",
-  "tests/*",
+    "/*.toml",
+    "/*.json",
+    "/*.lock",
+    "/*.md",
+    "/mypy.ini",
+    "/noxfile.py",
+    "bin/*",
+    "examples/*",
+    "src/*",
+    "tests/*",
 ]
 
 [tool.hatch.metadata.hooks.fancy-pypi-readme]
@@ -138,7 +139,7 @@ path = "README.md"
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
 # replace relative links with absolute links
 pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
-replacement = '[\1](https://github.com/openai/openai-python/tree/main/\g<2>)'
+replacement = '[\1](https://github.com/aimlapi/api-sdk-python/tree/main/\g<2>)'
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -147,11 +148,11 @@ xfail_strict = true
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "session"
 filterwarnings = [
-  "error"
+    "error"
 ]
 
 [tool.inline-snapshot]
-format-command="ruff format --stdin-filename {filename}"
+format-command = "ruff format --stdin-filename {filename}"
 
 [tool.pyright]
 # this enables practically every flag given by pyright.
@@ -165,7 +166,6 @@ exclude = [
     ".venv",
     ".nox",
     ".git",
-
     # uses inline `uv` script dependencies
     # which means it can't be type checked
     "examples/realtime/audio_util.py",
@@ -192,12 +192,12 @@ show_error_codes = true
 # realtime examples use inline `uv` script dependencies
 # which means it can't be type checked
 exclude = [
-  'src/openai/_files.py',
-  '_dev/.*.py',
-  'tests/.*',
-  'src/openai/_utils/_logs.py',
-  'examples/realtime/audio_util.py',
-  'examples/realtime/push_to_talk_app.py',
+    'src/openai/_files.py',
+    '_dev/.*.py',
+    'tests/.*',
+    'src/openai/_utils/_logs.py',
+    'examples/realtime/audio_util.py',
+    'examples/realtime/push_to_talk_app.py',
 ]
 
 strict_equality = true
@@ -249,34 +249,34 @@ docstring-code-format = true
 
 [tool.ruff.lint]
 select = [
-  # isort
-  "I",
-  # bugbear rules
-  "B",
-  # remove unused imports
-  "F401",
-  # check for missing future annotations
-  "FA102",
-  # bare except statements
-  "E722",
-  # unused arguments
-  "ARG",
-  # print statements
-  "T201",
-  "T203",
-  # misuse of typing.TYPE_CHECKING
-  "TC004",
-  # import rules
-  "TID251",
+    # isort
+    "I",
+    # bugbear rules
+    "B",
+    # remove unused imports
+    "F401",
+    # check for missing future annotations
+    "FA102",
+    # bare except statements
+    "E722",
+    # unused arguments
+    "ARG",
+    # print statements
+    "T201",
+    "T203",
+    # misuse of typing.TYPE_CHECKING
+    "TC004",
+    # import rules
+    "TID251",
 ]
 ignore = [
-  # mutable defaults
-  "B006",
+    # mutable defaults
+    "B006",
 ]
 unfixable = [
-  # disable auto fix for print statements
-  "T201",
-  "T203",
+    # disable auto fix for print statements
+    "T201",
+    "T203",
 ]
 
 extend-safe-fixes = ["FA102"]

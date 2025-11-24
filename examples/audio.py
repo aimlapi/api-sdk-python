@@ -27,7 +27,7 @@ def main() -> None:
         file=speech_file_path,
     )
 
-    print(transcription['result']['results']['channels'][0]['alternatives'][0]['transcript'])
+    print(transcription["result"]["results"]["channels"][0]["alternatives"][0]["transcript"])
 
     # AI/ML API's translation endpoint is not yet available
 

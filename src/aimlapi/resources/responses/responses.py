@@ -35,9 +35,7 @@ def _normalize_json_stream(data: Any) -> List[dict[str, Any]]:
 
     events: List[dict[str, Any]]
     if is_mapping(data) and isinstance(data.get("stream"), list):
-        events = [
-            event for event in data.get("stream", []) if is_mapping(event)
-        ]
+        events = [event for event in data.get("stream", []) if is_mapping(event)]
 
         seq_start = events[0].get("sequence_number", 0) if events else 0
         if not any(event.get("type") == "response.created" for event in events):
@@ -57,9 +55,7 @@ def _normalize_json_stream(data: Any) -> List[dict[str, Any]]:
         if not (is_mapping(event) and event.get("type")):
             event = {
                 "type": "response.completed",
-                "sequence_number": event.get("sequence_number", 0)
-                if is_mapping(event)
-                else 0,
+                "sequence_number": event.get("sequence_number", 0) if is_mapping(event) else 0,
                 "response": base_response,
             }
         elif "response" not in event:
@@ -72,9 +68,7 @@ def _normalize_json_stream(data: Any) -> List[dict[str, Any]]:
             0,
             {
                 "type": "response.created",
-                "sequence_number": normalized[0].get("sequence_number", 0)
-                if normalized
-                else 0,
+                "sequence_number": normalized[0].get("sequence_number", 0) if normalized else 0,
                 "response": base_response,
             },
         )
@@ -184,9 +178,7 @@ class AIMLResponseStream(_BaseResponseStream):
 
             data = json.loads(self._raw_stream.response.read())
             for event_data in _normalize_json_stream(data):
-                parsed_event = process_data(
-                    data=event_data, cast_to=cast_to, response=self._raw_stream.response
-                )
+                parsed_event = process_data(data=event_data, cast_to=cast_to, response=self._raw_stream.response)
 
                 events_to_fire = self._state.handle_event(parsed_event)
                 for event in events_to_fire:
@@ -206,9 +198,7 @@ class AIMLAsyncResponseStream(_BaseAsyncResponseStream):
 
             data = json.loads(await self._raw_stream.response.aread())
             for event_data in _normalize_json_stream(data):
-                parsed_event = process_data(
-                    data=event_data, cast_to=cast_to, response=self._raw_stream.response
-                )
+                parsed_event = process_data(data=event_data, cast_to=cast_to, response=self._raw_stream.response)
                 events_to_fire = self._state.handle_event(parsed_event)
                 for event in events_to_fire:
                     yield event

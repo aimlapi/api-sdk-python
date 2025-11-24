@@ -50,6 +50,7 @@ class Condition(BaseModel):
 
 class Query(BaseModel):
     """A database query request."""
+
     table_name: Table
     columns: List[Column]
     conditions: List[Condition]

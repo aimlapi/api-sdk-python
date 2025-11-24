@@ -217,4 +217,3 @@ def _coerce_mapping(value: object) -> Dict[str, Any]:
     if isinstance(value, Mapping):
         return dict(value)
     raise TypeError("Unexpected response payload from STT status endpoint")
-

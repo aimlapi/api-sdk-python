@@ -10,9 +10,7 @@ from .conftest import AIML_BASE_URL
 
 
 @pytest.mark.respx(base_url=AIML_BASE_URL)
-def test_chunked_upload_uses_multiple_parts(
-    tmp_path: Path, aiml_client, respx_mock: MockRouter
-) -> None:
+def test_chunked_upload_uses_multiple_parts(tmp_path: Path, aiml_client, respx_mock: MockRouter) -> None:
     data = b"abcdefghij"
     file_path = tmp_path / "demo.bin"
     file_path.write_bytes(data)

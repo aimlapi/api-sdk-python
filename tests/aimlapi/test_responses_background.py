@@ -10,7 +10,7 @@ from .helpers import response_payload, sse_bytes
 
 @pytest.mark.respx(base_url=AIML_BASE_URL)
 def test_background_retrieve_stream(aiml_client, respx_mock: MockRouter) -> None:
-    final = response_payload(text="{\"answer\": 42}")
+    final = response_payload(text='{"answer": 42}')
     events = [
         (
             "response.created",
@@ -29,9 +29,7 @@ def test_background_retrieve_stream(aiml_client, respx_mock: MockRouter) -> None
         )
     )
 
-    with aiml_client.responses.retrieve(
-        "resp_bg", stream=True, starting_after=5
-    ) as stream:
+    with aiml_client.responses.retrieve("resp_bg", stream=True, starting_after=5) as stream:
         received = list(stream)
 
     assert received[-1].type == "response.completed"

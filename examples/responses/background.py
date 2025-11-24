@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 from aimlapi import AIMLAPI
 
+
 class Step(BaseModel):
     explanation: str
     output: str

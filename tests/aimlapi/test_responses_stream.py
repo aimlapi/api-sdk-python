@@ -12,7 +12,7 @@ from .test_responses_basic import MathResult
 @pytest.mark.respx(base_url=AIML_BASE_URL)
 def test_responses_stream_emits_events(aiml_client, respx_mock: MockRouter) -> None:
     initial = response_payload(text="")
-    final = response_payload(text="{\"answer\": 42}")
+    final = response_payload(text='{"answer": 42}')
     events = [
         (
             "response.created",
@@ -26,7 +26,7 @@ def test_responses_stream_emits_events(aiml_client, respx_mock: MockRouter) -> N
                 "item_id": "msg_1",
                 "output_index": 0,
                 "content_index": 0,
-                "delta": "{\"answer\": 4",
+                "delta": '{"answer": 4',
                 "logprobs": [],
             },
         ),
@@ -38,7 +38,7 @@ def test_responses_stream_emits_events(aiml_client, respx_mock: MockRouter) -> N
                 "item_id": "msg_1",
                 "output_index": 0,
                 "content_index": 0,
-                "text": "{\"answer\": 42}",
+                "text": '{"answer": 42}',
                 "logprobs": [],
             },
         ),
@@ -55,9 +55,7 @@ def test_responses_stream_emits_events(aiml_client, respx_mock: MockRouter) -> N
         )
     )
 
-    with aiml_client.responses.stream(
-        input="solve", model="gpt-4o-mini", text_format=MathResult
-    ) as stream:
+    with aiml_client.responses.stream(input="solve", model="gpt-4o-mini", text_format=MathResult) as stream:
         collected = list(stream)
         event_types = [event.type for event in collected]
         assert event_types[0] == "response.created"

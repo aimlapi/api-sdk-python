@@ -54,4 +54,3 @@ class AsyncAudio(OpenAIAsyncAudio):
     @cached_property
     def speech(self) -> AsyncSpeech:
         return AsyncSpeech(self._client)
-

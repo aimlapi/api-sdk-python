@@ -281,11 +281,7 @@ def _extract_audio_payload(payload: object) -> _InlineAudio | _AudioURL | None:
     if isinstance(audio_value, Mapping):
         url = audio_value.get("url") or audio_value.get("href")
         if isinstance(url, str) and _looks_like_url(url):
-            mime = (
-                audio_value.get("mime_type")
-                or audio_value.get("content_type")
-                or audio_value.get("type")
-            )
+            mime = audio_value.get("mime_type") or audio_value.get("content_type") or audio_value.get("type")
             if isinstance(mime, str):
                 return _AudioURL(url=url, mime=mime)
             return _AudioURL(url=url, mime=None)
@@ -309,11 +305,7 @@ def _walk_for_audio(
     if isinstance(value, Mapping):
         next_mime = mime_hint
         if expect_audio:
-            mime_value = (
-                value.get("mime_type")
-                or value.get("content_type")
-                or value.get("type")
-            )
+            mime_value = value.get("mime_type") or value.get("content_type") or value.get("type")
             if isinstance(mime_value, str) and mime_value.startswith("audio/"):
                 next_mime = mime_value
 
@@ -395,7 +387,7 @@ def _decode_audio_string(value: str) -> tuple[bytes, str | None] | None:
 def _coerce_mapping(value: object) -> Dict[str, Any]:
     if isinstance(value, Mapping):
         return dict(value)
-    print('err', value)
+    print("err", value)
     raise TypeError("Unexpected response payload from TTS endpoint")
 
 
@@ -434,4 +426,3 @@ async def _async_download_audio_from_url(
 
 def _coerce_timeout(value: float | Timeout | None | NotGiven) -> float | Timeout | None:
     return None if isinstance(value, NotGiven) else value
-

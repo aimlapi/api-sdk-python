@@ -17,7 +17,7 @@ class MathResult(BaseModel):
 
 @pytest.mark.respx(base_url=AIML_BASE_URL)
 def test_responses_parse_returns_structured_output(aiml_client, respx_mock: MockRouter) -> None:
-    payload = response_payload(text="{\"answer\": 42}")
+    payload = response_payload(text='{"answer": 42}')
     route = respx_mock.post("/responses").mock(return_value=httpx.Response(200, json=payload))
 
     parsed = aiml_client.responses.parse(
