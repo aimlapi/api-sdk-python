@@ -1,37 +1,36 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Mapping, Optional, Sequence, Union
-
+from typing import Any, Dict, List, Union, Mapping, Optional
 from typing_extensions import Literal, override
 
-from openai._base_client import make_request_options
 from openai._types import (
     Body,
-    FileTypes,
-    Headers,
-    NotGiven,
     Omit,
     Query,
-    SequenceNotStr,
+    Headers,
     Timeout,
+    NotGiven,
+    FileTypes,
+    SequenceNotStr,
     omit,
     not_given,
 )
 from openai._utils import required_args
-from openai.resources.audio.transcriptions import (
-    AsyncTranscriptions as OpenAIAsyncTranscriptions,
-    AsyncTranscriptionsWithRawResponse,
-    AsyncTranscriptionsWithStreamingResponse,
-    Transcriptions as OpenAITranscriptions,
-    TranscriptionsWithRawResponse,
-    TranscriptionsWithStreamingResponse,
-)
 from openai.types.audio import transcription_create_params
-from openai.types.audio.transcription_include import TranscriptionInclude
+from openai._base_client import make_request_options
 from openai.types.audio_model import AudioModel
 from openai.types.audio_response_format import AudioResponseFormat
+from openai.resources.audio.transcriptions import (
+    Transcriptions as OpenAITranscriptions,
+    AsyncTranscriptions as OpenAIAsyncTranscriptions,
+    TranscriptionsWithRawResponse,
+    AsyncTranscriptionsWithRawResponse,
+    TranscriptionsWithStreamingResponse,
+    AsyncTranscriptionsWithStreamingResponse,
+)
+from openai.types.audio.transcription_include import TranscriptionInclude
 
-from ._polling import async_poll_job, poll_job
+from ._polling import poll_job, async_poll_job
 
 __all__ = [
     "Transcriptions",

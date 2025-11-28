@@ -2,15 +2,15 @@ from __future__ import annotations
 
 from typing import Any
 
+from openai._compat import cached_property
 from openai._base_client import BaseClient
-
 from openai.resources.uploads.uploads import (
-    AsyncUploads as OpenAIAsyncUploads,
-    AsyncUploadsWithRawResponse,
-    AsyncUploadsWithStreamingResponse,
     Uploads as OpenAIUploads,
+    AsyncUploads as OpenAIAsyncUploads,
     UploadsWithRawResponse,
+    AsyncUploadsWithRawResponse,
     UploadsWithStreamingResponse,
+    AsyncUploadsWithStreamingResponse,
 )
 
 __all__ = [
@@ -66,6 +66,12 @@ def _files_url(client: BaseClient, path: str) -> str:
 
 
 class Uploads(OpenAIUploads):
+    @cached_property
+    def parts(self):  # type: ignore[override]
+        raise NotImplementedError(
+            "AIMLAPI does not support /v1/uploads for now."
+        )
+
     def __init__(self, client: Any) -> None:
         super().__init__(client)
         self._post = self._files_post  # type: ignore[assignment]
@@ -83,6 +89,12 @@ class Uploads(OpenAIUploads):
 
 
 class AsyncUploads(OpenAIAsyncUploads):
+    @cached_property
+    def parts(self):  # type: ignore[override]
+        raise NotImplementedError(
+            "AIMLAPI does not support /v1/uploads for now."
+        )
+
     def __init__(self, client: Any) -> None:
         super().__init__(client)
         self._post = self._files_post  # type: ignore[assignment]

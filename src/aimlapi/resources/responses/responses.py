@@ -1,20 +1,21 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Callable, List, TypeVar
+from typing import Any, List, TypeVar, Callable
 
 import httpx
+
 from openai import _streaming as _openai_streaming
 from openai._utils import is_mapping
-from openai.lib.streaming.responses import _responses as streaming_responses
 from openai.resources.responses import responses as openai_responses
+from openai.lib.streaming.responses import _responses as streaming_responses
 from openai.resources.responses.responses import *  # noqa: F401, F403
-from openai.types.responses.response_image_gen_call_partial_image_event import (
-    ResponseImageGenCallPartialImageEvent,
-)
 from openai.types.responses.response_output_item import ImageGenerationCall
 from openai.types.responses.response_output_item_done_event import (
     ResponseOutputItemDoneEvent,
+)
+from openai.types.responses.response_image_gen_call_partial_image_event import (
+    ResponseImageGenCallPartialImageEvent,
 )
 
 _SyncStreamT = TypeVar("_SyncStreamT", bound="_openai_streaming.Stream[Any]")

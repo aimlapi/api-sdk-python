@@ -2,23 +2,23 @@ from __future__ import annotations
 
 import base64
 import binascii
+from typing import Any, Dict, Union, Mapping
 from dataclasses import dataclass
-from typing import Any, Dict, Mapping, Union
-
-import httpx
 from typing_extensions import Literal, override
 
+import httpx
+
 from openai import _legacy_response
+from openai._types import Body, Omit, Query, Headers, Timeout, NotGiven, omit, not_given
+from openai._response import StreamedBinaryAPIResponse, AsyncStreamedBinaryAPIResponse
 from openai._base_client import make_request_options
-from openai._response import AsyncStreamedBinaryAPIResponse, StreamedBinaryAPIResponse
-from openai._types import Body, Headers, NotGiven, Omit, Query, Timeout, omit, not_given
 from openai.resources.audio.speech import (
-    AsyncSpeech as OpenAIAsyncSpeech,
-    AsyncSpeechWithRawResponse,
-    AsyncSpeechWithStreamingResponse,
     Speech as OpenAISpeech,
+    AsyncSpeech as OpenAIAsyncSpeech,
     SpeechWithRawResponse,
+    AsyncSpeechWithRawResponse,
     SpeechWithStreamingResponse,
+    AsyncSpeechWithStreamingResponse,
 )
 from openai.types.audio.speech_model import SpeechModel
 
@@ -387,7 +387,6 @@ def _decode_audio_string(value: str) -> tuple[bytes, str | None] | None:
 def _coerce_mapping(value: object) -> Dict[str, Any]:
     if isinstance(value, Mapping):
         return dict(value)
-    print("err", value)
     raise TypeError("Unexpected response payload from TTS endpoint")
 
 

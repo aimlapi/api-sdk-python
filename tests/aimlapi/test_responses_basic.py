@@ -4,11 +4,11 @@ import json
 
 import httpx
 import pytest
-from pydantic import BaseModel
 from respx import MockRouter
+from pydantic import BaseModel
 
-from .conftest import AIML_BASE_URL
 from .helpers import response_payload
+from .conftest import AIML_BASE_URL
 
 
 class MathResult(BaseModel):

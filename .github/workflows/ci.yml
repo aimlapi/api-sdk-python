@@ -16,7 +16,7 @@ jobs:
   lint:
     timeout-minutes: 10
     name: lint
-    runs-on: ${{ github.repository == 'stainless-sdks/openai-python' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
@@ -42,7 +42,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ${{ github.repository == 'stainless-sdks/openai-python' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -60,25 +60,10 @@ jobs:
       - name: Run build
         run: rye build
 
-      - name: Get GitHub OIDC Token
-        if: github.repository == 'stainless-sdks/openai-python'
-        id: github-oidc
-        uses: actions/github-script@v6
-        with:
-          script: core.setOutput('github_token', await core.getIDToken());
-
-      - name: Upload tarball
-        if: github.repository == 'stainless-sdks/openai-python'
-        env:
-          URL: https://pkg.stainless.com/s
-          AUTH: ${{ steps.github-oidc.outputs.github_token }}
-          SHA: ${{ github.sha }}
-        run: ./scripts/utils/upload-artifact.sh
-
   test:
     timeout-minutes: 10
     name: test
-    runs-on: ${{ github.repository == 'stainless-sdks/openai-python' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
@@ -100,8 +85,8 @@ jobs:
   examples:
     timeout-minutes: 10
     name: examples
-    runs-on: ${{ github.repository == 'stainless-sdks/openai-python' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
-    if: github.repository == 'openai/openai-python' && (github.event_name == 'push' || github.event.pull_request.head.repo.fork)
+    runs-on: ubuntu-latest
+    if: github.repository == 'aimlapi/aimlapi-sdk-python' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository)
 
     steps:
       - uses: actions/checkout@v4
@@ -118,10 +103,10 @@ jobs:
           rye sync --all-features
 
       - env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AIML_API_KEY: ${{ secrets.AIML_API_KEY || secrets.AIMLAPI_API_KEY }}
         run: |
             rye run python examples/demo.py
       - env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AIML_API_KEY: ${{ secrets.AIML_API_KEY || secrets.AIMLAPI_API_KEY }}
         run: |
             rye run python examples/async_demo.py

@@ -2,6 +2,18 @@
 
 AI/ML API provides access to 300+ AI models (including DeepSeek, Gemini, and ChatGPT) with enterprise-grade rate limits and uptime. This package is an OpenAI-compatible fork of the official OpenAI Python client and defaults to the AI/ML API endpoints so you can reuse familiar APIs while targeting [api.aimlapi.com](https://api.aimlapi.com/v1/).
 
+**Overview of example capabilities:**
+
+* **Chat completions** — sync, async, and streaming
+* **Responses API streaming** — incremental response events
+* **Vision and image generation** — creating and processing visual content
+* **Speech generation and transcription** — TTS and STT capabilities
+* **Video generation** — multi-step video creation and retrieval
+* **Structured outputs** — schema-validated responses
+* **Tool calling** — function and tool execution via the model
+* **Azure / Entra authentication flows** — enterprise identity support
+* **Modular client usage** — flexible, component-based API design
+
 - Models: https://aimlapi.com/models
 - REST API reference: https://docs.aimlapi.com/
 - Example endpoints: https://api.aimlapi.com/v1/ and https://api.aimlapi.com/v1/chat/completions

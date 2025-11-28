@@ -1,12 +1,11 @@
 from __future__ import annotations
 
 import time
-from typing import Any, Callable, Collection, Mapping, Protocol
-
+from typing import Any, Mapping, Callable, Protocol, Collection
 from typing_extensions import runtime_checkable
 
+from openai._types import Timeout, NotGiven, not_given
 from openai._base_client import make_request_options
-from openai._types import NotGiven, Timeout, not_given
 
 __all__ = ["poll_job", "async_poll_job"]
 

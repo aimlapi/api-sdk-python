@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 import os
-from collections.abc import MutableMapping, Sequence
-from typing import Any, TYPE_CHECKING
-
+from typing import TYPE_CHECKING, Any
+from collections.abc import Sequence, MutableMapping
 from typing_extensions import override
 
 from openai._client import (
@@ -14,23 +13,23 @@ from openai._client import (
     OpenAIWithStreamedResponse as _OpenAIWithStreamedResponse,
     AsyncOpenAIWithStreamedResponse as _AsyncOpenAIWithStreamedResponse,
 )
-from openai._models import FinalRequestOptions
 from openai._compat import cached_property
+from openai._models import FinalRequestOptions
 from openai.lib.azure import AzureOpenAI as _AzureOpenAI, AsyncAzureOpenAI as _AsyncAzureOpenAI
 
 if TYPE_CHECKING:
-    from .resources.audio import Audio as _AimlAudio, AsyncAudio as _AimlAsyncAudio
     from .resources.chat import Chat as _AimlChat, AsyncChat as _AimlAsyncChat
+    from .resources.audio import Audio as _AimlAudio, AsyncAudio as _AimlAsyncAudio
     from .resources.images import Images as _AimlImages, AsyncImages as _AimlAsyncImages
-    from .resources.uploads import Uploads as _AimlUploads, AsyncUploads as _AimlAsyncUploads
     from .resources.videos import Videos as _AimlVideos, AsyncVideos as _AimlAsyncVideos
+    from .resources.uploads import Uploads as _AimlUploads, AsyncUploads as _AimlAsyncUploads
 
 DEFAULT_BASE_URL = "https://api.aimlapi.com/v1"
 AZURE_DEFAULT_BASE_URL = "https://api.aimlapi.com/openai/"
 _API_KEY_ENV_VARS = ("AIML_API_KEY", "AIMLAPI_API_KEY")
 _BASE_URL_ENV_VARS = ("AIML_API_BASE", "AIMLAPI_API_BASE")
 AIMLAPI_HEADERS: dict[str, str] = {
-    "HTTP-Referer": "github.com/aimlapi/api-sdk-python",
+    "HTTP-Referer": "github.com/aimlapi/aimlapi-sdk-python",
     "X-Title": "AI/ML API Python SDK (OpenAI)",
 }
 

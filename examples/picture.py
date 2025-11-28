@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-from aimlapi import AIMLAPI
 import base64
+
+from aimlapi import AIMLAPI
 
 # gets AIML_API_KEY from your environment variables
 aimlapi = AIMLAPI()

@@ -1,0 +1,102 @@
+name: Manual bump version
+
+on:
+  workflow_dispatch:
+    inputs:
+      new_version:
+        description: "New version (e.g. 0.5.3)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update version in files
+        run: |
+          python - << 'PY'
+          import re
+          import json
+          import pathlib
+          import sys
+
+          new_version = "${{ github.event.inputs.new_version }}".strip()
+          if not new_version:
+              print("No version provided", file=sys.stderr)
+              sys.exit(1)
+
+          root = pathlib.Path(".")
+
+          # 1) Update pyproject.toml
+          pyproject = root / "pyproject.toml"
+          text = pyproject.read_text(encoding="utf-8")
+          text, count = re.subn(
+              r'(?m)^(version\s*=\s*")[^"]+(")',
+              rf'\1{new_version}\2',
+              text,
+          )
+          if count == 0:
+              print('Could not find version = "..." in pyproject.toml', file=sys.stderr)
+              sys.exit(1)
+          pyproject.write_text(text, encoding="utf-8")
+          print("Updated pyproject.toml")
+
+          # 2) Update src/aimlapi/_version.py
+          version_py = root / "src" / "aimlapi" / "_version.py"
+          if version_py.exists():
+              text = version_py.read_text(encoding="utf-8")
+              text, _ = re.subn(
+                  r'(?m)^__version__\s*=\s*"[^\"]+"',
+                  f'__version__ = "{new_version}"',
+                  text,
+              )
+              version_py.write_text(text, encoding="utf-8")
+              print("Updated src/aimlapi/_version.py")
+          else:
+              print("src/aimlapi/_version.py not found, skipping")
+
+          # 3) Update .release-please-manifest.json (if present)
+          manifest = root / ".release-please-manifest.json"
+          if manifest.exists():
+              data = json.loads(manifest.read_text(encoding="utf-8"))
+
+              if isinstance(data, dict):
+                  for key in list(data.keys()):
+                      data[key] = new_version
+              else:
+                  print("Unexpected manifest format, skipping")
+                  sys.exit(1)
+
+              manifest.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+              print("Updated .release-please-manifest.json")
+          else:
+              print(".release-please-manifest.json not found, skipping")
+
+          PY
+
+      - name: Commit and push
+        env:
+          NEW_VERSION: ${{ github.event.inputs.new_version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add pyproject.toml src/aimlapi/_version.py .release-please-manifest.json 2> /dev/null || true
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+
+          fi
+
+          git commit -m "chore: bump version to ${NEW_VERSION}"
+          git push

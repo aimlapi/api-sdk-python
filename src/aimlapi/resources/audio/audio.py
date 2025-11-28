@@ -9,8 +9,9 @@ from openai.resources.audio.audio import (
     AudioWithStreamingResponse,
     AsyncAudioWithStreamingResponse,
 )
-from .speech import AsyncSpeech, Speech
-from .transcriptions import AsyncTranscriptions, Transcriptions
+
+from .speech import Speech, AsyncSpeech
+from .transcriptions import Transcriptions, AsyncTranscriptions
 
 __all__ = [
     "Audio",

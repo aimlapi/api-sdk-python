@@ -1,6 +1,6 @@
 [project]
 name = "aimlapi-sdk-python"
-version = "2.8.1-beta"
+version = "2.8.1-beta.1"
 description = "AI/ML API Python SDK"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -38,7 +38,7 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://docs.aimlapi.com"
-Repository = "https://github.com/aimlapi/api-sdk-python"
+Repository = "https://github.com/aimlapi/aimlapi-sdk-python"
 
 [project.scripts]
 aimlapi = "aimlapi.cli._cli:main"
@@ -139,7 +139,7 @@ path = "README.md"
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
 # replace relative links with absolute links
 pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
-replacement = '[\1](https://github.com/aimlapi/api-sdk-python/tree/main/\g<2>)'
+replacement = '[\1](https://github.com/aimlapi/aimlapi-sdk-python/tree/main/\g<2>)'
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

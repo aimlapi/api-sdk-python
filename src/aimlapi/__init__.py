@@ -12,29 +12,30 @@ import types as _types
 from typing import Any, Mapping
 
 import httpx
+
 import openai as _openai
 from openai import *  # noqa: F401, F403
-from openai._base_client import DEFAULT_MAX_RETRIES, DEFAULT_TIMEOUT
 from openai._client import Timeout
+from openai._base_client import DEFAULT_TIMEOUT, DEFAULT_MAX_RETRIES
 
-from ._client import (
+from ._client import (  # noqa: F401
     AIMLAPI,
+    DEFAULT_BASE_URL,
+    Client,
+    AsyncClient,
+    AsyncAIMLAPI,
+    AzureAIMLAPI,
+    AsyncAzureAIMLAPI,
     AIMLAPIWithRawResponse,
     AIMLAPIWithStreamedResponse,
-    AsyncAIMLAPI,
     AsyncAIMLAPIWithRawResponse,
-    AsyncAIMLAPIWithStreamedResponse,
-    AsyncAzureAIMLAPI,
-    AsyncAzureAIMLAPIWithRawResponse,
-    AsyncAzureAIMLAPIWithStreamedResponse,
-    AsyncClient,
-    AzureAIMLAPI,
     AzureAIMLAPIWithRawResponse,
+    AsyncAIMLAPIWithStreamedResponse,
+    AsyncAzureAIMLAPIWithRawResponse,
     AzureAIMLAPIWithStreamedResponse,
-    Client,
+    AsyncAzureAIMLAPIWithStreamedResponse,
 )
-from ._client import DEFAULT_BASE_URL
-from ._version import __title__, __version__
+from ._version import __title__, __version__  # noqa: F401
 
 AzureOpenAI = AzureAIMLAPI
 AsyncAzureOpenAI = AsyncAzureAIMLAPI

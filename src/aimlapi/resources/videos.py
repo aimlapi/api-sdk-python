@@ -1,21 +1,21 @@
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, Mapping
+from typing import Any, Dict, Mapping, Callable
 
 import httpx
 
+from openai._types import Body, Query, Headers, Timeout, NotGiven, not_given
 from openai._base_client import make_request_options
-from openai._types import Body, Headers, NotGiven, Query, Timeout, not_given
 from openai.resources.videos import (
-    AsyncVideos as OpenAIAsyncVideos,
-    AsyncVideosWithRawResponse,
-    AsyncVideosWithStreamingResponse,
     Videos as OpenAIVideos,
+    AsyncVideos as OpenAIAsyncVideos,
     VideosWithRawResponse,
+    AsyncVideosWithRawResponse,
     VideosWithStreamingResponse,
+    AsyncVideosWithStreamingResponse,
 )
 
-from .audio._polling import async_poll_job, poll_job
+from .audio._polling import poll_job, async_poll_job
 
 __all__ = [
     "Videos",

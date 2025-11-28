@@ -4,7 +4,7 @@ import httpx
 import pytest
 from respx import MockRouter
 
-from aimlapi import AuthenticationError, BadRequestError
+from aimlapi import BadRequestError, AuthenticationError
 
 from .conftest import AIML_BASE_URL
 

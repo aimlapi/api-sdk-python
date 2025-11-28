@@ -4,13 +4,13 @@ import json
 
 import httpx
 import pytest
-from pydantic import BaseModel
 from respx import MockRouter
+from pydantic import BaseModel
 
 from openai.lib._tools import ResponsesPydanticFunctionTool
 
+from .helpers import response_payload, function_response_payload
 from .conftest import AIML_BASE_URL
-from .helpers import function_response_payload, response_payload
 
 
 class LookupArgs(BaseModel):

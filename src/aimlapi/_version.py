@@ -6,4 +6,4 @@ value follows the same versioning scheme for compatibility.
 """
 
 __title__ = "aimlapi"
-__version__ = "2.8.1"  # x-release-please-version
+__version__ = "2.8.1-beta.1"  # x-release-please-version

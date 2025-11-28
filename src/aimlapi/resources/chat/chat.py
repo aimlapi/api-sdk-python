@@ -1,15 +1,15 @@
 from __future__ import annotations
 
 from openai._compat import cached_property
-from openai._resource import AsyncAPIResource, SyncAPIResource
+from openai._resource import SyncAPIResource, AsyncAPIResource
 
 from .completions.completions import (
-    AsyncCompletions,
     Completions,
-    AsyncCompletionsWithRawResponse,
+    AsyncCompletions,
     CompletionsWithRawResponse,
-    AsyncCompletionsWithStreamingResponse,
+    AsyncCompletionsWithRawResponse,
     CompletionsWithStreamingResponse,
+    AsyncCompletionsWithStreamingResponse,
 )
 
 __all__ = [

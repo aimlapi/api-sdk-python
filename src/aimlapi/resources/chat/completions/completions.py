@@ -1,54 +1,54 @@
 from __future__ import annotations
 
-from collections.abc import Iterable, Mapping
-from typing import Any, Dict, List, Optional, Union, overload
-
-import httpx
+from typing import Any, Dict, List, Union, Optional, overload
+from collections.abc import Mapping, Iterable
 from typing_extensions import Literal
 
-from openai._streaming import AsyncStream, Stream
+import httpx
+
 from openai._types import (
     Body,
-    Headers,
-    NotGiven,
     Omit,
     Query,
+    Headers,
+    NotGiven,
     SequenceNotStr,
     omit,
     not_given,
 )
-from openai.resources.chat.completions.completions import (
-    AsyncCompletions as _AsyncCompletions,
-    Completions as _Completions,
-    AsyncCompletionsWithRawResponse as AsyncCompletionsWithRawResponse,
-    AsyncCompletionsWithStreamingResponse as AsyncCompletionsWithStreamingResponse,
-    CompletionsWithRawResponse as CompletionsWithRawResponse,
-    CompletionsWithStreamingResponse as CompletionsWithStreamingResponse,
-)
+from openai._streaming import Stream, AsyncStream
+from openai.types.chat import completion_create_params
 from openai.lib._parsing import ResponseFormatT
 from openai.lib.streaming.chat import (
-    AsyncChatCompletionStreamManager,
     ChatCompletionStreamManager,
+    AsyncChatCompletionStreamManager,
 )
-from openai.types.chat import completion_create_params
+from openai.types.shared.chat_model import ChatModel
 from openai.types.chat.chat_completion import ChatCompletion
-from openai.types.chat.chat_completion_audio_param import ChatCompletionAudioParam
+from openai.types.shared_params.metadata import Metadata
+from openai.types.shared.reasoning_effort import ReasoningEffort
 from openai.types.chat.chat_completion_chunk import ChatCompletionChunk
-from openai.types.chat.chat_completion_message_param import ChatCompletionMessageParam
-from openai.types.chat.chat_completion_prediction_content_param import (
-    ChatCompletionPredictionContentParam,
+from openai.types.chat.parsed_chat_completion import ParsedChatCompletion
+from openai.resources.chat.completions.completions import (
+    Completions as _Completions,
+    AsyncCompletions as _AsyncCompletions,
+    CompletionsWithRawResponse as CompletionsWithRawResponse,
+    AsyncCompletionsWithRawResponse as AsyncCompletionsWithRawResponse,
+    CompletionsWithStreamingResponse as CompletionsWithStreamingResponse,
+    AsyncCompletionsWithStreamingResponse as AsyncCompletionsWithStreamingResponse,
 )
+from openai.types.chat.chat_completion_audio_param import ChatCompletionAudioParam
+from openai.types.chat.chat_completion_message_param import ChatCompletionMessageParam
+from openai.types.chat.chat_completion_tool_union_param import ChatCompletionToolUnionParam
 from openai.types.chat.chat_completion_stream_options_param import (
     ChatCompletionStreamOptionsParam,
+)
+from openai.types.chat.chat_completion_prediction_content_param import (
+    ChatCompletionPredictionContentParam,
 )
 from openai.types.chat.chat_completion_tool_choice_option_param import (
     ChatCompletionToolChoiceOptionParam,
 )
-from openai.types.chat.chat_completion_tool_union_param import ChatCompletionToolUnionParam
-from openai.types.chat.parsed_chat_completion import ParsedChatCompletion
-from openai.types.shared.chat_model import ChatModel
-from openai.types.shared.reasoning_effort import ReasoningEffort
-from openai.types.shared_params.metadata import Metadata
 
 MessageDict = Mapping[str, object]
 MessageParam = Union[ChatCompletionMessageParam, MessageDict]

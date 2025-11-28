@@ -2,16 +2,15 @@ from __future__ import annotations
 
 import base64
 from typing import Optional
-
-import httpx
 from typing_extensions import Literal, override
 
+import httpx
+
+from openai.types import ImagesResponse
+from openai._types import NotGiven, not_given
 from openai.resources import images as _openai_images
 from openai.resources.images import *  # noqa: F401, F403
-from openai.resources.images import AsyncImages as _OpenAIAsyncImages
-from openai.resources.images import Images as _OpenAIImages
-from openai._types import NotGiven, not_given
-from openai.types import ImagesResponse
+from openai.resources.images import Images as _OpenAIImages, AsyncImages as _OpenAIAsyncImages
 
 
 class Images(_OpenAIImages):
